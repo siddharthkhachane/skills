@@ -16,6 +16,9 @@ disable-model-invocation: true
 ---
 
 Catalog every API endpoint exposed by this codebase. For each one list: HTTP method, full route path, the file and function that handles it, required authentication or authorization, request parameters or body shape, and a one sentence description of what it does. Group the endpoints by domain area, for example auth, users, billing. After the catalog, flag three things specifically: endpoints with no visible authentication check, endpoints that appear unused anywhere in the frontend or tests, and any inconsistent patterns across endpoints, such as some routes validating input and others not.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-arch
@@ -30,6 +33,9 @@ disable-model-invocation: true
 ---
 
 Map the architecture of this codebase without writing any code. Identify every major layer or module, for example API layer, service layer, data access layer, background jobs, frontend. For each layer, list the folders and files that belong to it and the responsibilities it owns. Describe how layers communicate: direct function calls, HTTP, message queue, or events. Name the architectural pattern in use, layered, hexagonal, MVC, microservices, or monolith, and justify your answer with specific file references, not general impressions. Draw the dependency direction between layers as a text diagram using arrows. Finally, list any places where the architecture is violated, such as a UI file importing directly from the database layer, and explain why that is a problem.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-bug
@@ -78,6 +84,9 @@ disable-model-invocation: true
 I want to add the following feature to this codebase: $ARGUMENTS
 
 Do not write any code yet. First investigate: 1) which existing files and modules this feature will most likely touch, 2) whether a similar feature already exists that I should copy the pattern from, and exactly where it lives, 3) the naming conventions, error handling, and testing patterns used elsewhere so my code matches them, 4) existing utilities, hooks, or services I should reuse instead of writing from scratch, 5) edge cases this codebase seems to care about, based on how similar features validate input and handle errors. Then output a numbered implementation plan with file paths and a one line description of the change needed in each file. Stop and wait for my approval before writing any code.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-find
@@ -112,6 +121,9 @@ disable-model-invocation: true
 Trace how this data flows through this entire system: $ARGUMENTS
 
 Start from every point it can be created or entered, signup form, API import, admin panel, and follow it through every transformation, validation, storage location, and place it gets read or displayed again. Present this as an ordered sequence of steps with file and function references at each step, not just a list of files that mention it. Flag any place the data is duplicated, cached, or stored in more than one location, since that is where inconsistency bugs usually live.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-help
@@ -186,6 +198,9 @@ Format (exactly):
 **Sharper prompt:** a rewritten version of my request, in a code block, 40 words or fewer, using the real file names, terms and constraints from the blind-spot pass. Do not run it.
 
 **Next step:** one sentence - the single known unknown or assumption to resolve first, and how.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-legacy
@@ -200,6 +215,9 @@ disable-model-invocation: true
 ---
 
 Treat this repository as an undocumented legacy system I just inherited with no handoff. Identify the language, framework, and major dependency versions in use, and whether any are outdated or deprecated. Find where the actual business logic lives versus boilerplate or scaffolding. Identify code that looks fragile: global mutable state, tightly coupled modules, magic numbers or strings with no explanation, missing error handling around external calls. Tell me what would most likely break first if I made a careless change, and why. Compile this into a short brief organized under these exact headings: Stack, Core Logic, Fragile Areas, Safe First Changes.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-pr
@@ -209,14 +227,17 @@ File: `~/.claude/skills/s-pr/SKILL.md`
 ````markdown
 ---
 name: s-pr
-description: Strict senior-engineer review of a PR you did not write - must fix / should fix / nice to have, with file and line citations.
+description: Strict senior-engineer review of a PR you did not write - must fix / should fix, with file and line citations.
 argument-hint: [PR number, URL, or branch - blank for current branch diff]
 disable-model-invocation: true
 ---
 
 Review this pull request as a strict senior engineer doing a real code review, not a summary. The PR to review: ${ARGUMENTS:-the current branch's diff against the main branch}.
 
-Check for: correctness against the stated intent of the PR, unhandled edge cases, naming that does not match the rest of the codebase, missing or weak test coverage for the new logic, security issues such as unvalidated input or exposed secrets, and code that duplicates functionality that already exists elsewhere in the repo. Organize findings into three sections, must fix before merge, should fix, and nice to have. For each finding, cite the exact file and line. Do not rewrite the code yourself, explain the problem clearly enough that I can fix it myself.
+Check for: correctness against the stated intent of the PR, unhandled edge cases, naming that does not match the rest of the codebase, missing or weak test coverage for the new logic, security issues such as unvalidated input or exposed secrets, and code that duplicates functionality that already exists elsewhere in the repo. Organize findings into two sections, must fix before merge and should fix. Omit nice-to-haves. For each finding, cite the exact file and line. Do not rewrite the code yourself, explain the problem clearly enough that I can fix it myself.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-refactor
@@ -234,6 +255,9 @@ disable-model-invocation: true
 I want to refactor: $ARGUMENTS
 
 Before any changes, find every place in the codebase that imports it, calls it, or depends on its output or side effects, directly or indirectly, including tests. Present this as a dependency list with file paths. For each dependent, note whether it is covered by an automated test. Flag anything relying on this code's current behavior in a way that is not obvious from its name or signature, such as a specific return shape or a side effect like writing to a cache. Then propose a refactor plan broken into small, independently safe steps, and tell me which existing tests to run after each step.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-ship
@@ -248,6 +272,9 @@ disable-model-invocation: true
 ---
 
 Review my current uncommitted changes against the rest of this codebase before I open a PR. Check: does this change match the existing patterns and conventions in files near it, are there edge cases visible in the diff that are not handled, is there missing test coverage for the new or changed logic, does this change affect any other part of the codebase that is not obvious from the diff alone, and is there anything here you would want a second engineer to specifically double check. Give me a short go or no go recommendation at the end with your reasoning stated plainly.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
 ````
 
 ## s-test

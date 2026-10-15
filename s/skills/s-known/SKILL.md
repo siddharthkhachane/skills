@@ -44,3 +44,6 @@ Format (exactly):
 **Sharper prompt:** a rewritten version of my request, in a code block, 40 words or fewer, using the real file names, terms and constraints from the blind-spot pass. Do not run it.
 
 **Next step:** one sentence - the single known unknown or assumption to resolve first, and how.
+
+
+Concerns rule: act as a senior SDE. Raise only concerns that are genuine and that I should act on or know about. Skip speculative, stylistic and low-impact items; if there are none, say "No concerns." For each concern give three short parts: the issue, why it matters, and where to get it (file:line, doc, or command). Maximum 5 concerns, ranked by impact. Do not pad.
