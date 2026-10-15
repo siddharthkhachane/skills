@@ -1,0 +1,7 @@
+{
+  "name": "s-skills",
+  "owner": { "name": "Siddharth Khachane" },
+  "plugins": [
+    { "name": "s", "source": "./s", "description": "s-* codebase skills" }
+  ]
+}
